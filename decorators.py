@@ -2,7 +2,6 @@ import json
 from flask import Flask, jsonify, abort, make_response, request, url_for
 from functools import wraps
 
-
 authenticated_users = {
     "admin": "secret",
     "jigar": "secret"
@@ -11,45 +10,52 @@ authenticated_users = {
 """
 Admin user can give commands
 """
+
+
 # auth = HTTPBasicAuth()
 # @auth.get_password
 def get_password(username):
-	if username in authenticated_users:
-		return authenticated_users.get(username)
-	return None
+    if username in authenticated_users:
+        return authenticated_users.get(username)
+    return None
+
 
 def validate_json(*expected_args):
-	def decorator(func):
-		@wraps(func)
-		def wrapper(*args, **kwargs):
-			json_object = request.get_json()
-			for expected_arg in expected_args:
-				if expected_arg not in json_object:
-					abort(400)
-			return func(*args, **kwargs)
-		return wrapper
-	return decorator
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            json_object = request.get_json()
+            for expected_arg in expected_args:
+                if expected_arg not in json_object:
+                    abort(400)
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
 
 def auth_required(func):
-	def decorator(func):
-		def wrapper(*args, **kwargs):
-			request = json.loads(*args)
-			if get_password(request['username']) != request['password']:
-				unauthorized()
-				return None
-			func(*args, **kwargs)
-		return wrapper
-	return decorator
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            request = json.loads(*args)
+            if get_password(request['username']) != request['password']:
+                unauthorized()
+                return None
+            func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
 
 
 class decoratorWithoutArguments(object):
-
     def __init__(self, func):
         """
         If there are no decorator arguments, the function
         to be decorated is passed to the constructor.
         """
-        print "Inside __init__()"
+        print "Inside __init__() of decoratorWithoutArguments"
         self.f = func
 
     def __call__(self, *args):
@@ -57,6 +63,7 @@ class decoratorWithoutArguments(object):
         The __call__ method is not called until the
         decorated function is called.
         """
+        print "Inside __call__() of decoratorWithoutArguments"
         request = args[1]
         request = json.loads(request)
         if get_password(request['username']) != request['password']:
@@ -70,7 +77,6 @@ class decoratorWithoutArguments(object):
 
 
 class decoratorWithArguments(object):
-
     def __init__(self, ws, request):
         """
         If there are decorator arguments, the function
@@ -87,6 +93,7 @@ class decoratorWithArguments(object):
         it a single argument, which is the function object.
         """
         print "Inside __call__()"
+
         def wrapped_func(*args):
             print "Inside wrapped_f()"
             print "Decorator arguments:", self.ws, self.request
@@ -95,6 +102,7 @@ class decoratorWithArguments(object):
                 self.unauthorized()
             else:
                 func(*args)
+
         return wrapped_func
 
     # @auth.error_handler
