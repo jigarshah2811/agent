@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, abort, make_response, request, url_for
 import time
 import json
+import logging
+logger = logging.getLogger('WebSocketClient')
 
 def configNetwork(request):
 	"""
@@ -11,8 +13,7 @@ def configNetwork(request):
 		else:
 			ws.send("you are not Mr. admin")
 		"""
-	print "Network configuration started..."
+	logger.debug("Network configuration started...")
 	time.sleep(1)
-	print "Network configuration finished..."
+	logger.debug("Network configuration finished...")
 	return json.dumps({"configNetwork": "SUCCESS"}, ensure_ascii=False)
-
