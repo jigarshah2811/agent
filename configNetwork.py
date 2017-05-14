@@ -11,8 +11,8 @@ def configNetwork(request):
 		else:
 			ws.send("you are not Mr. admin")
 		"""
-	print "Camera configuration started..."
+	print "Network configuration started..."
 	time.sleep(1)
-	print "Camera configuration finished..."
+	print "Network configuration finished..."
 	return json.dumps({"configNetwork": "SUCCESS"}, ensure_ascii=False)
 
