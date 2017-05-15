@@ -6,17 +6,18 @@ from flask_httpauth import HTTPBasicAuth
 from flask import Flask, jsonify, abort, make_response, request, url_for
 import time
 import thread
+import logging
 from decorators import decoratorWithoutArguments, validate_json
 from configNetwork import configNetwork
-import logging
-import os
+from getDeviceInfo import getDeviceInfo
 
 agent_api_list = {
-	'configNetworkApi':configNetwork
+	'configNetworkApi':configNetwork,
+	'getDeviceInfoApi':getDeviceInfo
 }
 
 def print_func(json_data):
-	logger.debug("calling fun {0} for command {1}".format(agent_api_list[json_data['msg']], json_data['msg']))
+	logger.debug("calling fun {0} for command {1}".format(agent_api_list[json_data['api']], json_data['api']))
 
 def not_found(api):
 	return make_response(jsonify({'error': 'Bad Request'}), 400)
@@ -29,7 +30,7 @@ def on_message(ws, request):
 	logger.debug('on_message', request)
 
 	# Client REST API
-	api = request['msg']
+	api = request['api']
 	if api not in agent_api_list:
 		not_found(api)
 
