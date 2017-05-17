@@ -1,0 +1,65 @@
+----- commands from cloud to raspberry pi -----
+
+--- Format ---
+Input request format:
+
+API format (Request from Cloud):
+getDeviceInfoApi = {
+        'api' : 'getDeviceInfoApi',
+        'username' : 'admin',
+        'password' : 'secret'
+}
+
+API format (Agent Implementation):
+def configNetwork(request):
+ ....
+ response = {"api": "getDeviceInfo", "result": "SUCCESS",
+
+
+======= DETAILED APIs =======
+
+GetDeviceInfo
+Input:
+	- None
+Output:
+	- information like IP-addr, MAC, Serial number, firmware version of each connected devices
+- Provides IP addresses and MAC addresses of connected devices
+
+setSecurityRule
+Input:
+	- device ID, security rule
+Output:
+	- success/fail
+- do something with network security (bhai what to do?)
+
+setDeviceParameters
+Input:
+	- device ID, rate limit, network telemetry collection duration, wifi telemetry collection duration 
+Output:
+	- success/fail
+-set the device parameters
+
+getHealthStatus
+Input:
+	- None
+Output:
+	- UUID, make and model, status, cpu usage, memory usage, network stat, flow info
+- this command will provide the health status information of raspberry pi
+
+shutdown
+Input:
+	- device ID
+Output:
+	- success/fail
+- this command will shutdown specific device
+
+----- commands from raspberry pi to cloud -----
+
+notifyTelemetry
+Input:
+	- None
+Output:
+	- avg. bandwidth, list of highest talkers, network stat, wifi signal strength, avg. throughput
+- this command will periodically provide all details about connected devices
+
+
