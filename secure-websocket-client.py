@@ -43,7 +43,7 @@ def on_message(ws, request):
         print_func(request)
         response = agent_api_list[api](request)
 
-    logging.debug("Sending Server {0}".format(response))
+    logging.debug("Sent to Cloud: {0}".format(response))
     ws.send(json.dumps(response, ensure_ascii=False))
 
 
@@ -63,7 +63,7 @@ def on_open(ws):
     def run(*args):
         for i in range(1):
             message = u"Hello Server"
-            logging.debug("Sending Server: {0}".format(message))
+            logging.debug("Sent to Cloud: {0}".format(message))
             ws.send(message)
             time.sleep(1)
         # ws.close()
