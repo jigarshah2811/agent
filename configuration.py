@@ -18,13 +18,13 @@ class configuration:
         self.rate_limit = rate_value
 
     def getNwTelemetryDuration(self):
-        return self.nw_telemetry_duration;
+        return self.nw_telemetry_duration
 
     def setNwTelemetryDuration(self, duration_value):
         self.nw_telemetry_duration = duration_value
 
     def getWifiTelemetryDuration(self):
-        return self.wifi_telemetry_duration;
+        return self.wifi_telemetry_duration
 
     def setWifiTelemetryDuration(self, duration_value):
         self.wifi_telemetry_duration = duration_value

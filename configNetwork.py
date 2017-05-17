@@ -11,4 +11,4 @@ def configNetwork(request):
 
 	logger.debug("Prepare response to cloud...")
 	response = {"api" : "configNetwork", "result": "SUCCESS"}
-	return json.dumps(response, ensure_ascii=False)
+	return response

@@ -1,5 +1,6 @@
 import json
 import logging
+import agent_info
 logger = logging.getLogger('WebSocketClient')
 
 """
@@ -9,20 +10,14 @@ Figure out how many devices are reachable through this Raspberry Pi
     #       Or Camera and Sensors has to provide APIs to talk to them through GPIO
 """
 def getDeviceInfo(request):
-    IP_address = '192.168.1.60'
-    MAC_address = '00-15-E9-2B-99-3C'
-    Serial_Number = '1L080B50230'
-    Firmware_Version = 'V1.0.0'
-    total_devices = 1
-
     logger.debug("Preparing device list...")
     device_list = []
-    for count in xrange(total_devices):
+    for count in xrange(agent_info.total_device):
         device_list.append(
-            {"IP": IP_address,
-             "MAC": MAC_address,
-             "SerialNo": Serial_Number,
-             "Firmware": Firmware_Version
+            {"IP": agent_info.ip,
+             "MAC": agent_info.mac,
+             "SerialNo": agent_info.serial,
+             "Firmware": agent_info.firmware
              }
         )
 
@@ -32,5 +27,4 @@ def getDeviceInfo(request):
     for count in xrange(len(device_list)):
         response["device-".format(count)] = device_list[count]
 
-    response = json.dumps(response, ensure_ascii=False)
     return response
